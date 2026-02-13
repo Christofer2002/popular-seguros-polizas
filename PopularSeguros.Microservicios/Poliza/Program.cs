@@ -22,8 +22,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UsePathBase("/popular-seguros-polizas/api/clientes");
-
 app.UseMiddleware<MiddlewareErroresGlobal>();
 
 app.UseSwagger();

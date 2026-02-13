@@ -14,18 +14,18 @@ namespace Autenticacion.Entities
 
         [Required]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre de usuario debe tener entre 3 y 100 caracteres.")]
-        [RegularExpression(@"^[a-zA-Z0-9_\-\.]+$", ErrorMessage = "El nombre de usuario solo puede contener letras, números, guiones, guiones bajos y puntos.")]
+        [RegularExpression(@"^[a-zA-Z0-9_\-\.]+$", ErrorMessage = "El nombre de usuario solo puede contener letras, nÃºmeros, guiones, guiones bajos y puntos.")]
         [Display(Order = 2)]
         public string NombreUsuario { get; set; } = string.Empty;
 
         [Required]
         [StringLength(255)]
         [Display(Order = 3)]
-        public string Contraseña { get; set; } = string.Empty;
+        public string ContraseÃ±a { get; set; } = string.Empty;
 
         [Required]
         [StringLength(150)]
-        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "El email debe tener un formato válido.")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "El email debe tener un formato vÃ¡lido.")]
         [Display(Order = 4)]
         public string Email { get; set; } = string.Empty;
 

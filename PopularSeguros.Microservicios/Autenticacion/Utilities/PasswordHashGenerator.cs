@@ -4,14 +4,14 @@ namespace Autenticacion.Utilities
 {
     public class PasswordHashGenerator
     {
-        public static string GenerarHash(string contraseña)
+        public static string GenerarHash(string contraseÃ±a)
         {
-            return BCrypt.Net.BCrypt.HashPassword(contraseña);
+            return BCrypt.Net.BCrypt.HashPassword(contraseÃ±a);
         }
 
-        public static bool VerificarContraseña(string contraseña, string hash)
+        public static bool VerificarContraseÃ±a(string contraseÃ±a, string hash)
         {
-            return BCrypt.Net.BCrypt.Verify(contraseña, hash);
+            return BCrypt.Net.BCrypt.Verify(contraseÃ±a, hash);
         }
     }
 }

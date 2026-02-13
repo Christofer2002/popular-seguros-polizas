@@ -28,7 +28,7 @@ namespace Autenticacion.Data
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.Property(e => e.ContraseÒa)
+                entity.Property(e => e.Contrase√±a)
                     .IsRequired()
                     .HasMaxLength(255);
 

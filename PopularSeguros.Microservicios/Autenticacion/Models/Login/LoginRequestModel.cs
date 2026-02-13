@@ -8,8 +8,8 @@ namespace Autenticacion.Models.Login
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre de usuario debe tener entre 3 y 100 caracteres.")]
         public string NombreUsuario { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "La contraseña es requerida.")]
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener mínimo 6 caracteres.")]
-        public string Contraseña { get; set; } = string.Empty;
+        [Required(ErrorMessage = "La contraseÃ±a es requerida.")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseÃ±a debe tener mÃ­nimo 6 caracteres.")]
+        public string ContraseÃ±a { get; set; } = string.Empty;
     }
 }

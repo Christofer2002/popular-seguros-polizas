@@ -29,7 +29,7 @@ namespace Autenticacion.Services
                     return new LoginResponseModel
                     {
                         Exito = false,
-                        Mensaje = "Usuario o contraseÒa incorrectos.",
+                        Mensaje = "Usuario o contrase√±a incorrectos.",
                         Data = null
                     };
                 }
@@ -39,17 +39,17 @@ namespace Autenticacion.Services
                     return new LoginResponseModel
                     {
                         Exito = false,
-                        Mensaje = "La cuenta de usuario est· inactiva.",
+                        Mensaje = "La cuenta de usuario est√° inactiva.",
                         Data = null
                     };
                 }
 
-                if (!BCrypt.Net.BCrypt.Verify(request.ContraseÒa, usuario.ContraseÒa))
+                if (!BCrypt.Net.BCrypt.Verify(request.Contrase√±a, usuario.Contrase√±a))
                 {
                     return new LoginResponseModel
                     {
                         Exito = false,
-                        Mensaje = "Usuario o contraseÒa incorrectos.",
+                        Mensaje = "Usuario o contrase√±a incorrectos.",
                         Data = null
                     };
                 }
@@ -98,7 +98,7 @@ namespace Autenticacion.Services
                     return new ResponseModel<bool>
                     {
                         Exito = false,
-                        Mensaje = "El nombre de usuario ya est· en uso.",
+                        Mensaje = "El nombre de usuario ya est√° en uso.",
                         Data = false
                     };
                 }
@@ -106,7 +106,7 @@ namespace Autenticacion.Services
                 return new ResponseModel<bool>
                 {
                     Exito = true,
-                    Mensaje = "El nombre de usuario est· disponible.",
+                    Mensaje = "El nombre de usuario est√° disponible.",
                     Data = true
                 };
             }
@@ -121,9 +121,9 @@ namespace Autenticacion.Services
             }
         }
 
-        public static string EncriptarContraseÒa(string contraseÒa)
+        public static string EncriptarContrase√±a(string contrase√±a)
         {
-            return BCrypt.Net.BCrypt.HashPassword(contraseÒa);
+            return BCrypt.Net.BCrypt.HashPassword(contrase√±a);
         }
     }
 }

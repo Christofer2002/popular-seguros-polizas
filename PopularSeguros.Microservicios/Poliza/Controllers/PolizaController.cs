@@ -7,7 +7,7 @@ using Comun.Models;
 namespace Poliza.Controllers
 {
     [ApiController]
-    [Route("api/polizas")]
+    [Route("[controller]")]
     public class PolizaController : ControllerBase
     {
         private readonly IPolizaService _polizaService;

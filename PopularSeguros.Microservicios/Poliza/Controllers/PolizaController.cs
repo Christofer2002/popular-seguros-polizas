@@ -3,6 +3,7 @@ using Poliza.Interfaces;
 using Poliza.Models.CrearPoliza;
 using Poliza.Models.ObtenerPolizas;
 using Comun.Models;
+using Poliza.Models.ActualizarPoliza;
 
 namespace Poliza.Controllers
 {
@@ -18,7 +19,7 @@ namespace Poliza.Controllers
         }
 
         [HttpPost("filtros")]
-        public async Task<ActionResult<ObtenerPolizaResponseModel>> ObtenerPolizas([FromBody] PaginacionRequestModel request)
+        public async Task<ActionResult<ObtenerPolizaResponseModel>> ObtenerPolizas([FromBody] ObtenerPolizasRequestModel request)
         {
             if (!ModelState.IsValid)
             {
@@ -48,9 +49,23 @@ namespace Poliza.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Poliza.Models.ActualizarPoliza.ActualizarPolizaResponseModel>> ActualizarPoliza(Guid id, [FromBody] Poliza.Models.ActualizarPoliza.ActualizarPolizaRequestModel request)
+        public async Task<ActionResult<ActualizarPolizaResponseModel>> ActualizarPoliza(Guid id, [FromBody] Poliza.Models.ActualizarPoliza.ActualizarPolizaRequestModel request)
         {
-            if (!ModelState.IsValid) return BadRequest(new Poliza.Models.ActualizarPoliza.ActualizarPolizaResponseModel { Exito = false, Mensaje = "Solicitud inválida.", Data = null });
+            if (!ModelState.IsValid) 
+            {
+                var errores = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? e.Exception?.Message ?? "Valor inválido" : e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(new ActualizarPolizaResponseModel 
+                { 
+                    Exito = false, 
+                    Mensaje = "Solicitud inválida.", 
+                    Data = null,
+                    Errores = errores
+                });
+            }
 
             var response = await _polizaService.ActualizarPoliza(id, request);
 

@@ -8,7 +8,7 @@ namespace Cliente.Interfaces
 {
     public interface IClienteService
     {
-        Task<ObtenerClienteResponseModel> ObtenerClientes(PaginacionRequestModel request);
+        Task<ObtenerClienteResponseModel> ObtenerClientes(ObtenerClientesRequestModel request);
         Task<CrearClienteResponseModel> CrearCliente(CrearClienteRequestModel request);
         Task<ActualizarClienteResponseModel> ActualizarCliente(string cedula, ActualizarClienteRequestModel request);
         Task<ResponseModel<bool>> EliminarCliente(string cedula);

@@ -17,6 +17,18 @@ builder.Services.AddControllers(options =>
     options.Filters.Add(new ValidateModelAttribute());
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowSpecificOrigins",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173", "https://devbychris.com")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        });
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -32,6 +44,7 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseHttpsRedirection();
+app.UseCors("AllowSpecificOrigins");
 app.UseAuthorization();
 
 app.MapGet("/", () => Results.Redirect("swagger"));

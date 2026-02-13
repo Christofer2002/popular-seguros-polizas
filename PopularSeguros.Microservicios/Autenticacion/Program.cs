@@ -1,23 +1,54 @@
+using Autenticacion.Data;
+using Autenticacion.Interfaces;
+using Autenticacion.Services;
+using Comun.Filters;
+using Comun.Middlewares;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
+builder.Services.AddScoped<IAutenticacionService, AutenticacionService>();
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddDbContext<AutenticacionDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new ValidateModelAttribute());
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowSpecificOrigins",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173", "https://devbychris.com")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        });
+});
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseMiddleware<MiddlewareErroresGlobal>();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.MapOpenApi();
-}
+    c.SwaggerEndpoint("v1/swagger.json", "Autenticacion API v1");
+    c.RoutePrefix = "swagger";
+});
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowSpecificOrigins");
 app.UseAuthorization();
 
+app.MapGet("/", () => Results.Redirect("swagger"));
 app.MapControllers();
 
 app.Run();

@@ -5,30 +5,86 @@ using Poliza.Interfaces;
 using Poliza.Models.CrearPoliza;
 using Poliza.Models.ObtenerPolizas;
 using Comun.Models;
+using System.Text.Json;
+using Poliza.Models.Cliente;
 
 namespace Poliza.Services
 {
     public class PolizaService : IPolizaService
     {
         private readonly PolizaDbContext _context;
+        private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
 
-        public PolizaService(PolizaDbContext context)
+        public PolizaService(PolizaDbContext context, HttpClient httpClient, IConfiguration configuration)
         {
             _context = context;
+            _httpClient = httpClient;
+            _configuration = configuration;
         }
 
-        public async Task<ObtenerPolizaResponseModel> ObtenerPolizas(PaginacionRequestModel request)
+        public async Task<ObtenerPolizaResponseModel> ObtenerPolizas(ObtenerPolizasRequestModel request)
         {
             try
             {
-                var totalRegistros = await _context.PolizaTable
-                    .Where(p => !p.EstaEliminado)
-                    .CountAsync();
+                var query = _context.PolizaTable.Where(p => !p.EstaEliminado);
+
+                if (!string.IsNullOrWhiteSpace(request.NumeroPoliza))
+                {
+                    query = query.Where(p => p.NumeroPoliza.Contains(request.NumeroPoliza));
+                }
+
+                if (request.TipoPolizaId.HasValue)
+                {
+                    query = query.Where(p => p.TipoPolizaId == request.TipoPolizaId.Value);
+                }
+
+                if (request.FechaVencimiento.HasValue)
+                {
+                    query = query.Where(p => p.FechaVencimiento.Date == request.FechaVencimiento.Value.Date);
+                }
+
+                if (!string.IsNullOrWhiteSpace(request.CedulaAsegurado))
+                {
+                    query = query.Where(p => p.CedulaAsegurado.Contains(request.CedulaAsegurado));
+                }
+
+                List<string> cedulasEncontradas = new();
+
+                if (!string.IsNullOrWhiteSpace(request.Nombre) || 
+                    !string.IsNullOrWhiteSpace(request.PrimerApellido) || 
+                    !string.IsNullOrWhiteSpace(request.SegundoApellido))
+                {
+                    cedulasEncontradas = await ObtenerCedulasDeClientes(request.Nombre, request.PrimerApellido, request.SegundoApellido);
+
+                    if (cedulasEncontradas.Any())
+                    {
+                        query = query.Where(p => cedulasEncontradas.Contains(p.CedulaAsegurado));
+                    }
+                    else
+                    {
+                        return new ObtenerPolizaResponseModel
+                        {
+                            Exito = true,
+                            Mensaje = "No se encontraron pólizas que coincidan con los criterios de búsqueda.",
+                            Data = new List<PolizaEntity>(),
+                            Paginacion = new PaginacionModel
+                            {
+                                PaginaActual = request.Pagina,
+                                CantidadRegistros = request.CantidadRegistros,
+                                TotalRegistros = 0,
+                                CantidadPaginas = 0
+                            }
+                        };
+                    }
+                }
+
+                var totalRegistros = await query.CountAsync();
 
                 int cantidadPaginas = (int)Math.Ceiling(totalRegistros / (double)request.CantidadRegistros);
 
-                var polizas = await _context.PolizaTable
-                    .Where(p => !p.EstaEliminado)
+                var polizas = await query
+                    .OrderByDescending(p => p.NumeroPoliza)
                     .Skip((request.Pagina - 1) * request.CantidadRegistros)
                     .Take(request.CantidadRegistros)
                     .Include(p => p.TipoPoliza)
@@ -61,10 +117,104 @@ namespace Poliza.Services
             }
         }
 
+        private async Task<bool> VerificarCedulaExiste(string cedulaAsegurado)
+        {
+            try
+            {
+                var clienteApiUrl = _configuration["ClienteServiceUrl"] ?? "https://localhost:44383";
+                var requestBody = new
+                {
+                    pagina = 1,
+                    cantidadRegistros = 1,
+                    cedulaAsegurado = cedulaAsegurado
+                };
+
+                var content = new StringContent(
+                    JsonSerializer.Serialize(requestBody),
+                    System.Text.Encoding.UTF8,
+                    "application/json"
+                );
+
+                var response = await _httpClient.PostAsync($"{clienteApiUrl}/api/cliente/filtros", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    var clientesResponse = JsonSerializer.Deserialize<ObtenerClientesResponseDto>(responseContent, options);
+
+                    if (clientesResponse?.Exito == true && clientesResponse.Data != null && clientesResponse.Data.Any())
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        private async Task<List<string>> ObtenerCedulasDeClientes(string? nombre, string? primerApellido, string? segundoApellido)
+        {
+            try
+            {
+                var clienteApiUrl = _configuration["ClienteServiceUrl"] ?? "https://localhost:44383";
+                var requestBody = new
+                {
+                    pagina = 1,
+                    cantidadRegistros = 10000,
+                    nombre = nombre,
+                    primerApellido = primerApellido,
+                    segundoApellido = segundoApellido
+                };
+
+                var content = new StringContent(
+                    JsonSerializer.Serialize(requestBody),
+                    System.Text.Encoding.UTF8,
+                    "application/json"
+                );
+
+                var response = await _httpClient.PostAsync($"{clienteApiUrl}/api/cliente/filtros", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    var clientesResponse = JsonSerializer.Deserialize<ObtenerClientesResponseDto>(responseContent, options);
+
+                    if (clientesResponse?.Exito == true && clientesResponse.Data != null)
+                    {
+                        return clientesResponse.Data.Select(c => c.CedulaAsegurado).ToList();
+                    }
+                }
+
+                return new List<string>();
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
+            }
+        }
+
         public async Task<CrearPolizaResponseModel> CrearPoliza(CrearPolizaRequestModel request)
         {
             try
             {
+                // Verificar que la cédula del asegurado existe
+                var cedulaExiste = await VerificarCedulaExiste(request.CedulaAsegurado);
+                if (!cedulaExiste)
+                {
+                    return new CrearPolizaResponseModel
+                    {
+                        Exito = false,
+                        Mensaje = $"El cliente con cédula '{request.CedulaAsegurado}' no existe.",
+                        Data = null
+                    };
+                }
+
                 var existente = await _context.PolizaTable
                     .FirstOrDefaultAsync(p => p.NumeroPoliza == request.NumeroPoliza);
 
@@ -158,6 +308,21 @@ namespace Poliza.Services
                         Mensaje = "Póliza no encontrada.",
                         Data = null
                     };
+                }
+
+                // Verificar que la cédula del asegurado existe (solo si cambió)
+                if (poliza.CedulaAsegurado != request.CedulaAsegurado)
+                {
+                    var cedulaExiste = await VerificarCedulaExiste(request.CedulaAsegurado);
+                    if (!cedulaExiste)
+                    {
+                        return new Poliza.Models.ActualizarPoliza.ActualizarPolizaResponseModel
+                        {
+                            Exito = false,
+                            Mensaje = $"El cliente con cédula '{request.CedulaAsegurado}' no existe.",
+                            Data = null
+                        };
+                    }
                 }
 
                 poliza.TipoPolizaId = request.TipoPolizaId;

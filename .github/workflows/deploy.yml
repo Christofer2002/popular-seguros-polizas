@@ -1,4 +1,4 @@
-name: Deploy Popular Seguros Microservices
+name: Deploy Popular Seguros Fullstack
 
 on:
   push:
@@ -13,20 +13,46 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # -----------------------
+      # Setup .NET
+      # -----------------------
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
 
-      - name: Build Poliza
+      # -----------------------
+      # Setup Node
+      # -----------------------
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # -----------------------
+      # Build Backend
+      # -----------------------
+      - name: Publish Poliza
         run: dotnet publish PopularSeguros.Microservicios/Poliza/Poliza.csproj -c Release -o publish-poliza
 
-      - name: Build Cliente
+      - name: Publish Cliente
         run: dotnet publish PopularSeguros.Microservicios/Cliente/Cliente.csproj -c Release -o publish-cliente
 
-      - name: Build Autenticacion
+      - name: Publish Autenticacion
         run: dotnet publish PopularSeguros.Microservicios/Autenticacion/Autenticacion.csproj -c Release -o publish-autenticacion
 
+      # -----------------------
+      # Build Frontend
+      # -----------------------
+      - name: Build Frontend
+        working-directory: popular-seguros-polizas-web
+        run: |
+          npm install
+          npm run build
+
+      # -----------------------
+      # Deploy to VPS
+      # -----------------------
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -34,6 +60,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
+            # BACKEND
             cd /var/www/backends/popular-seguros-polizas
             git pull origin main
 
@@ -44,3 +71,9 @@ jobs:
             systemctl restart poliza
             systemctl restart cliente
             systemctl restart autenticacion
+
+            # FRONTEND
+            cd /var/www/frontends/popular-seguros-web
+
+            npm install
+            npm run build

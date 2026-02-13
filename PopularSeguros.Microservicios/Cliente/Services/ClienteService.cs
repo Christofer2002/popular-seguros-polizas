@@ -18,18 +18,43 @@ namespace Cliente.Servicios
             _context = context;
         }
 
-        public async Task<ObtenerClienteResponseModel> ObtenerClientes(PaginacionRequestModel request)
+        public async Task<ObtenerClienteResponseModel> ObtenerClientes(ObtenerClientesRequestModel request)
         {
             try
             {
-                var totalRegistros = await _context.ClienteTable
-                    .Where(c => !c.EstaEliminado)
-                    .CountAsync();
+                var query = _context.ClienteTable.Where(c => !c.EstaEliminado);
+
+                if (!string.IsNullOrWhiteSpace(request.CedulaAsegurado))
+                {
+                    query = query.Where(c => c.CedulaAsegurado.Contains(request.CedulaAsegurado));
+                }
+
+                if (!string.IsNullOrWhiteSpace(request.Nombre))
+                {
+                    query = query.Where(c => c.Nombre.Contains(request.Nombre));
+                }
+
+                if (!string.IsNullOrWhiteSpace(request.PrimerApellido))
+                {
+                    query = query.Where(c => c.PrimerApellido.Contains(request.PrimerApellido));
+                }
+
+                if (!string.IsNullOrWhiteSpace(request.SegundoApellido))
+                {
+                    query = query.Where(c => c.SegundoApellido.Contains(request.SegundoApellido));
+                }
+
+                if (!string.IsNullOrWhiteSpace(request.TipoPersona))
+                {
+                    query = query.Where(c => c.TipoPersona.Contains(request.TipoPersona));
+                }
+
+                var totalRegistros = await query.CountAsync();
 
                 int cantidadPaginas = (int)Math.Ceiling(totalRegistros / (double)request.CantidadRegistros);
 
-                var clientes = await _context.ClienteTable
-                    .Where(c => !c.EstaEliminado)
+                var clientes = await query
+                    .OrderByDescending(c => c.CedulaAsegurado)
                     .Skip((request.Pagina - 1) * request.CantidadRegistros)
                     .Take(request.CantidadRegistros)
                     .ToListAsync();

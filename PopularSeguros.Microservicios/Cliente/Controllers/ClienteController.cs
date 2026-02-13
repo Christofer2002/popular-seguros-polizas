@@ -1,7 +1,7 @@
 ﻿using Cliente.Interfaces;
 using Cliente.Models;
 using Cliente.Models.CrearCliente;
-using Cliente.Models.ActualizarCliente; 
+using Cliente.Models.ActualizarCliente;
 using Cliente.Models.ObtenerClientes;
 using Cliente.Servicios;
 using Comun.Models;
@@ -21,7 +21,7 @@ namespace Cliente.Controllers
         }
 
         [HttpPost("filtros")]
-        public async Task<ActionResult<ObtenerClienteResponseModel>> ObtenerClientes([FromBody] PaginacionRequestModel request)
+        public async Task<ActionResult<ObtenerClienteResponseModel>> ObtenerClientes([FromBody] ObtenerClientesRequestModel request)
         {
             if (!ModelState.IsValid)
             {
@@ -42,8 +42,7 @@ namespace Cliente.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CrearClienteResponseModel>> CrearCliente(
-            [FromBody] CrearClienteRequestModel request)
+        public async Task<ActionResult<CrearClienteResponseModel>> CrearCliente([FromBody] CrearClienteRequestModel request)
         {
             if (!ModelState.IsValid)
             {
@@ -68,11 +67,17 @@ namespace Cliente.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var errores = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? e.Exception?.Message ?? "Valor inválido" : e.ErrorMessage)
+                    .ToList();
+
                 return BadRequest(new ActualizarClienteResponseModel
                 {
                     Exito = false,
                     Mensaje = "Solicitud inválida.",
-                    Data = null
+                    Data = null,
+                    Errores = errores
                 });
             }
 

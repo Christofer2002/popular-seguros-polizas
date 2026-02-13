@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-
 builder.Services.AddScoped<IClienteService, ClienteService>();
 
 builder.Services.AddDbContext<ClienteDbContext>(options =>

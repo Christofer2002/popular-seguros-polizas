@@ -1,0 +1,79 @@
+# ========================
+# .gitignore for popular-seguros-polizas
+# Includes ignores for .NET backend and React frontend
+# ========================
+
+# --- IDEs and editors ---
+.vs/                      # Visual Studio workspace
+.vscode/                  # VS Code workspace settings
+.idea/                    # JetBrains Rider/IDEA
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sln.iml
+
+# --- Build / output ---
+bin/
+obj/
+publish/
+
+# --- NuGet / packages ---
+*.nupkg
+packages/
+.nuget/
+*.snupkg
+
+# Keep project-level lockfiles tracked for reproducible builds (do NOT ignore package-lock.json / yarn.lock)
+
+# --- ASP.NET Core ---
+# Keep appsettings.json in repo; ignore machine-specific/dev secrets
+appsettings.Development.json
+appsettings.*.Local.json
+secrets.json
+
+# --- Entity Framework migrations ---
+# Include migrations in repository (do NOT ignore). Migrations should be committed for the test.
+
+# --- Logs ---
+logs/
+*.log
+
+# --- OS generated files ---
+.DS_Store
+Thumbs.db
+
+# --- Node / frontend ---
+node_modules/
+build/
+dist/
+npm-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+
+# --- Environment files ---
+# Keep .env out of repo; allow non-sensitive example files if present
+.env
+.env.local
+.env.*.local
+
+# --- Tests and coverage ---
+TestResults/
+coverage/
+coverage.*
+*.lcov
+
+# --- Temporary ---
+tmp/
+*.tmp
+
+# --- Docker ---
+docker-compose.override.yml
+
+# --- Frontend package managers ---
+bower_components/
+
+# End of file

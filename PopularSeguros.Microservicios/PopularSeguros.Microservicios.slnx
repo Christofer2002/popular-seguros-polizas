@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Autenticacion/Autenticacion.csproj" Id="b532974d-7b23-47a0-90fc-3c93c33d25d6" />
+  <Project Path="Cliente/Cliente.csproj" Id="c6724547-4cda-4ed8-8492-93c4e7146cf6" />
+  <Project Path="Comun/Comun.csproj" Id="7135a14c-cf73-4e93-9373-059c02b5e66d" />
+  <Project Path="Poliza/Poliza.csproj" Id="b5bb1265-9687-4417-9624-98af6776057d" />
+</Solution>

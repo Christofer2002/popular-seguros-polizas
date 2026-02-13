@@ -1,0 +1,46 @@
+name: Deploy Popular Seguros Microservices
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build Poliza
+        run: dotnet publish PopularSeguros.Microservicios/Poliza/Poliza.csproj -c Release -o publish-poliza
+
+      - name: Build Cliente
+        run: dotnet publish PopularSeguros.Microservicios/Cliente/Cliente.csproj -c Release -o publish-cliente
+
+      - name: Build Autenticacion
+        run: dotnet publish PopularSeguros.Microservicios/Autenticacion/Autenticacion.csproj -c Release -o publish-autenticacion
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /var/www/backends/popular-seguros-polizas
+            git pull origin main
+
+            dotnet publish PopularSeguros.Microservicios/Poliza/Poliza.csproj -c Release -o publish-poliza
+            dotnet publish PopularSeguros.Microservicios/Cliente/Cliente.csproj -c Release -o publish-cliente
+            dotnet publish PopularSeguros.Microservicios/Autenticacion/Autenticacion.csproj -c Release -o publish-autenticacion
+
+            systemctl restart poliza
+            systemctl restart cliente
+            systemctl restart autenticacion

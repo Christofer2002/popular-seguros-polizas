@@ -45,7 +45,7 @@ jobs:
       # Build Frontend
       # -----------------------
       - name: Build Frontend
-        working-directory: popular-seguros-polizas-web
+        working-directory: popular-seguros-web
         run: |
           npm install
           npm run build

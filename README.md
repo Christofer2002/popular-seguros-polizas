@@ -115,7 +115,7 @@ Update-Database --context PolizaDbContext
 Y después
 
 ```bash
-Update-Database --context CatalogosDbContext
+Update-Database --context CatalogoDbContext
 ```
 
 O bien, según sea el caso:
@@ -126,7 +126,7 @@ dotnet ef database update --context PolizaDbContext
 Y después
 
 ```bash
-dotnet ef database update --context CatalogosDbContext
+dotnet ef database update --context CatalogoDbContext
 ```
 
 ### Ejecución

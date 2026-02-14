@@ -51,35 +51,15 @@ app.UseAuthorization();
 app.MapGet("/", () => Results.Redirect("swagger"));
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ClienteDbContext>();
     var logger = services.GetRequiredService<ILogger<Program>>();
 
-    try
-    {
-        logger.LogInformation("Aplicando migraciones pendientes...");
-        
-        // Verificar si la base de datos existe, si no, crearla
-        if (!context.Database.CanConnect())
-        {
-            context.Database.EnsureCreated();
-        }
-        
-        context.Database.Migrate();
-
-        if (app.Environment.IsDevelopment())
-        {
-            logger.LogInformation("Ejecutando seeding inicial...");
-            await ClienteDbSeeder.SeedAsync(context, logger);
-        }
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "Ocurrió un error aplicando migraciones o seeding.");
-        throw;
-    }
+    logger.LogInformation("Ejecutando seeding inicial...");
+    await ClienteDbSeeder.SeedAsync(context, logger);
 }
 
 app.Run();

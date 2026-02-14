@@ -57,40 +57,17 @@ app.UseAuthorization();
 app.MapGet("/", () => Results.Redirect("swagger"));
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var polizaContext = services.GetRequiredService<PolizaDbContext>();
     var catalogoContext = services.GetRequiredService<CatalogoDbContext>();
     var logger = services.GetRequiredService<ILogger<Program>>();
 
-    try
-    {
-        logger.LogInformation("Aplicando migraciones pendientes...");
-        
-        // Verificar conexión antes de migrar
-        if (polizaContext.Database.CanConnect())
-        {
-            polizaContext.Database.Migrate();
-        }
-        
-        if (catalogoContext.Database.CanConnect())
-        {
-            catalogoContext.Database.Migrate();
-        }
-
-        if (app.Environment.IsDevelopment())
-        {
-            logger.LogInformation("Ejecutando seeding inicial...");
-            await PolizaDbSeeder.SeedAsync(polizaContext, logger);
-            await CatalogoDbSeeder.SeedAsync(catalogoContext, logger);
-        }
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "Ocurrió un error aplicando migraciones o seeding.");
-        throw;
-    }
+    logger.LogInformation("Ejecutando seeding inicial...");
+    await PolizaDbSeeder.SeedAsync(polizaContext, logger);
+    await CatalogoDbSeeder.SeedAsync(catalogoContext, logger);
 }
 
 app.Run();

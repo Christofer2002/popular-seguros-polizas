@@ -66,7 +66,7 @@ namespace Poliza.Services
                         return new ObtenerPolizaResponseModel
                         {
                             Exito = true,
-                            Mensaje = "No se encontraron pólizas que coincidan con los criterios de búsqueda.",
+                            Mensaje = "No se encontraron pÃ³lizas que coincidan con los criterios de bÃºsqueda.",
                             Data = new List<PolizaEntity>(),
                             Paginacion = new PaginacionModel
                             {
@@ -95,7 +95,7 @@ namespace Poliza.Services
                 return new ObtenerPolizaResponseModel
                 {
                     Exito = true,
-                    Mensaje = "Pólizas obtenidas correctamente.",
+                    Mensaje = "PÃ³lizas obtenidas correctamente.",
                     Data = polizas,
                     Paginacion = new PaginacionModel
                     {
@@ -111,7 +111,7 @@ namespace Poliza.Services
                 return new ObtenerPolizaResponseModel
                 {
                     Exito = false,
-                    Mensaje = $"Error al obtener las pólizas: {ex.Message}",
+                    Mensaje = $"Error al obtener las pÃ³lizas: {ex.Message}",
                     Data = null
                 };
             }
@@ -121,7 +121,7 @@ namespace Poliza.Services
         {
             try
             {
-                var clienteApiUrl = _configuration["ClienteServiceUrl"] ?? "https://localhost:44383";
+                var clienteApiUrl = _configuration["ClienteServiceUrl"] ?? "https://devbychris.com/popular-seguros-polizas";
                 var requestBody = new
                 {
                     pagina = 1,
@@ -161,7 +161,7 @@ namespace Poliza.Services
         {
             try
             {
-                var clienteApiUrl = _configuration["ClienteServiceUrl"] ?? "https://localhost:44383";
+                var clienteApiUrl = _configuration["ClienteServiceUrl"] ?? "https://devbychris.com/popular-seguros-polizas";
                 var requestBody = new
                 {
                     pagina = 1,
@@ -203,14 +203,13 @@ namespace Poliza.Services
         {
             try
             {
-                // Verificar que la cédula del asegurado existe
                 var cedulaExiste = await VerificarCedulaExiste(request.CedulaAsegurado);
                 if (!cedulaExiste)
                 {
                     return new CrearPolizaResponseModel
                     {
                         Exito = false,
-                        Mensaje = $"El cliente con cédula '{request.CedulaAsegurado}' no existe.",
+                        Mensaje = $"El cliente con cÃ©dula '{request.CedulaAsegurado}' no existe.",
                         Data = null
                     };
                 }
@@ -225,7 +224,7 @@ namespace Poliza.Services
                         return new CrearPolizaResponseModel
                         {
                             Exito = false,
-                            Mensaje = "Ya existe una póliza con ese número.",
+                            Mensaje = "Ya existe una pÃ³liza con ese nÃºmero.",
                             Data = null
                         };
                     }
@@ -249,7 +248,7 @@ namespace Poliza.Services
                     return new CrearPolizaResponseModel
                     {
                         Exito = true,
-                        Mensaje = "Póliza restaurada y actualizada correctamente.",
+                        Mensaje = "PÃ³liza restaurada y actualizada correctamente.",
                         Data = existente,
                         Id = existente.Id
                     };
@@ -277,7 +276,7 @@ namespace Poliza.Services
                 return new CrearPolizaResponseModel
                 {
                     Exito = true,
-                    Mensaje = "Póliza creada correctamente.",
+                    Mensaje = "PÃ³liza creada correctamente.",
                     Data = poliza,
                     Id = poliza.Id
                 };
@@ -287,7 +286,7 @@ namespace Poliza.Services
                 return new CrearPolizaResponseModel
                 {
                     Exito = false,
-                    Mensaje = $"Error al crear la póliza: {ex.Message}",
+                    Mensaje = $"Error al crear la pÃ³liza: {ex.Message}",
                     Data = null
                 };
             }
@@ -305,12 +304,11 @@ namespace Poliza.Services
                     return new Poliza.Models.ActualizarPoliza.ActualizarPolizaResponseModel
                     {
                         Exito = false,
-                        Mensaje = "Póliza no encontrada.",
+                        Mensaje = "PÃ³liza no encontrada.",
                         Data = null
                     };
                 }
 
-                // Verificar que la cédula del asegurado existe (solo si cambió)
                 if (poliza.CedulaAsegurado != request.CedulaAsegurado)
                 {
                     var cedulaExiste = await VerificarCedulaExiste(request.CedulaAsegurado);
@@ -319,7 +317,7 @@ namespace Poliza.Services
                         return new Poliza.Models.ActualizarPoliza.ActualizarPolizaResponseModel
                         {
                             Exito = false,
-                            Mensaje = $"El cliente con cédula '{request.CedulaAsegurado}' no existe.",
+                            Mensaje = $"El cliente con cÃ©dula '{request.CedulaAsegurado}' no existe.",
                             Data = null
                         };
                     }
@@ -342,7 +340,7 @@ namespace Poliza.Services
                 return new Poliza.Models.ActualizarPoliza.ActualizarPolizaResponseModel
                 {
                     Exito = true,
-                    Mensaje = "Póliza actualizada correctamente.",
+                    Mensaje = "PÃ³liza actualizada correctamente.",
                     Data = poliza,
                     Id = poliza.Id
                 };
@@ -352,7 +350,7 @@ namespace Poliza.Services
                 return new Poliza.Models.ActualizarPoliza.ActualizarPolizaResponseModel
                 {
                     Exito = false,
-                    Mensaje = $"Error al actualizar la póliza: {ex.Message}",
+                    Mensaje = $"Error al actualizar la pÃ³liza: {ex.Message}",
                     Data = null
                 };
             }
@@ -370,7 +368,7 @@ namespace Poliza.Services
                     return new Comun.Models.ResponseModel<bool>
                     {
                         Exito = false,
-                        Mensaje = "Póliza no encontrada.",
+                        Mensaje = "PÃ³liza no encontrada.",
                         Data = false
                     };
                 }
@@ -382,7 +380,7 @@ namespace Poliza.Services
                 return new Comun.Models.ResponseModel<bool>
                 {
                     Exito = true,
-                    Mensaje = "Póliza eliminada (soft-delete) correctamente.",
+                    Mensaje = "PÃ³liza eliminada (soft-delete) correctamente.",
                     Data = true
                 };
             }
@@ -391,7 +389,7 @@ namespace Poliza.Services
                 return new Comun.Models.ResponseModel<bool>
                 {
                     Exito = false,
-                    Mensaje = $"Error al eliminar la póliza: {ex.Message}",
+                    Mensaje = $"Error al eliminar la pÃ³liza: {ex.Message}",
                     Data = false
                 };
             }

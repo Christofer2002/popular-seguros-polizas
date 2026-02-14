@@ -60,20 +60,13 @@ using (var scope = app.Services.CreateScope())
     try
     {
         logger.LogInformation("Verificando conexión a la base de datos...");
-        if (context.Database.CanConnect())
-        {
-            logger.LogInformation("Aplicando migraciones pendientes...");
-            context.Database.Migrate();
+        logger.LogInformation("Aplicando migraciones pendientes...");
+        context.Database.Migrate();
 
-            if (app.Environment.IsDevelopment())
-            {
-                logger.LogInformation("Ejecutando seeding inicial...");
-                await AutenticacionDbSeeder.SeedAsync(context, logger);
-            }
-        }
-        else
+        if (app.Environment.IsDevelopment())
         {
-            logger.LogWarning("No se puede conectar a la base de datos.");
+            logger.LogInformation("Ejecutando seeding inicial...");
+            await AutenticacionDbSeeder.SeedAsync(context, logger);
         }
     }
     catch (Exception ex)

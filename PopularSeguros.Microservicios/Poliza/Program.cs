@@ -66,23 +66,15 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        logger.LogInformation("Verificando conexión a la base de datos...");
-        if (polizaContext.Database.CanConnect() && catalogoContext.Database.CanConnect())
-        {
-            logger.LogInformation("Aplicando migraciones pendientes...");
-            polizaContext.Database.Migrate();
-            catalogoContext.Database.Migrate();
+        logger.LogInformation("Aplicando migraciones pendientes...");
+        polizaContext.Database.Migrate();
+        catalogoContext.Database.Migrate();
 
-            if (app.Environment.IsDevelopment())
-            {
-                logger.LogInformation("Ejecutando seeding inicial...");
-                await PolizaDbSeeder.SeedAsync(polizaContext, logger);
-                await CatalogoDbSeeder.SeedAsync(catalogoContext, logger);
-            }
-        }
-        else
+        if (app.Environment.IsDevelopment())
         {
-            logger.LogWarning("No se puede conectar a una o ambas bases de datos.");
+            logger.LogInformation("Ejecutando seeding inicial...");
+            await PolizaDbSeeder.SeedAsync(polizaContext, logger);
+            await CatalogoDbSeeder.SeedAsync(catalogoContext, logger);
         }
     }
     catch (Exception ex)

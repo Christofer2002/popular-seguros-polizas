@@ -105,6 +105,9 @@ npm run dev
 
 Se creó un Data Seeder que inserta datos iniciales de las tablas si la base de datos no se encuentra o está vacía, así que automaticamente se realiza la migración completa + inserción de datos.
 
+> [!NOTE]
+> Se creó un Data Seeder que inserta datos iniciales de las tablas si la base de datos no se encuentra o está vacía, así que automaticamente se realiza la migración completa + inserción de datos al iniciar los microservicios.
+
 # Login
 
 - Claves que se proveen para ingresar al sistema:

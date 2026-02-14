@@ -107,6 +107,28 @@ Si se hacer desde la linea de comandos (CMD)
 dotnet ef database update
 ```
 
+En el caso del microservicio Poliza se debe especificar los 2 DbContext al momento de la migración:
+
+```bash
+Update-Database --context PolizaDbContext
+```
+Y después
+
+```bash
+Update-Database --context PolizaDbContext
+```
+
+O bien, según sea el caso:
+
+```bash
+dotnet ef database update --context PolizaDbContext
+```
+Y después
+
+```bash
+dotnet ef database update --context PolizaDbContext
+```
+
 ### Ejecución
 
 - En Visual Studio, abrir la solución **PopularSeguros.Microservicios.slnx** en la carpeta **PopularSeguros.Microservicios**, después:

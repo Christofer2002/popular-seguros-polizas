@@ -41,12 +41,10 @@ Por otro lado, una arquitectura monolítica concentra todas las funcionalidades 
 ## Mencione al menos 2 patrones de diseño y explique brevemente
 
 ### Patrón Singleton
-Patrón creacional que garantiza que una clase tenga una única instancia y proporciona un punto de acceso global a ella.  
-Se utiliza cuando se requiere un objeto único en todo el sistema (por ejemplo, configuración o conexión a base de datos).
+Es un patrón de creación que asegura que una clase solo pueda tener una instancia única y que exista un acceso global a ella. Se aplica en situaciones donde se necesita un único objeto en todo el sistema, como en la gestión de configuraciones o en la conexión a una base de datos.
 
 ### Patrón Observer
-Patrón de comportamiento que define un mecanismo de suscripción para notificar a múltiples objetos cuando cambia el estado de otro objeto.  
-Es común en interfaces gráficas y sistemas reactivos.
+Se trata de un patrón de comportamiento que establece un sistema de suscripción, permitiendo que varios objetos reciban notificaciones automáticamente cuando otro objeto cambia su estado.
 
 ---
 

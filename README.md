@@ -129,6 +129,9 @@ Y después
 dotnet ef database update --context CatalogoDbContext
 ```
 
+> [!NOTE]
+> La conexión con la base de datos se realiza mediante Windows Authenticacion, por lo cual es recomendable abrir las herramientras como administrador.
+
 ### Ejecución
 
 - En Visual Studio, abrir la solución **PopularSeguros.Microservicios.slnx** en la carpeta **PopularSeguros.Microservicios**, después:

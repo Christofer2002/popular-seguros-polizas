@@ -29,7 +29,7 @@ export default function Login() {
       const respuesta = await iniciarSesion(credenciales)
       if (respuesta && respuesta.exito && respuesta.data) {
         localStorage.setItem('usuario', JSON.stringify(respuesta.data))
-        navegar('/clientes')
+        navegar('/popular-seguros-polizas/web/clientes')
       } else {
         setError(respuesta?.mensaje || 'Error al iniciar sesión')
       }

@@ -3,6 +3,7 @@ using Cliente.Models;
 using Cliente.Models.CrearCliente;
 using Cliente.Models.ActualizarCliente;
 using Cliente.Models.ObtenerClientes;
+using Cliente.Models.BuscarCliente;
 using Cliente.Servicios;
 using Comun.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,17 @@ namespace Cliente.Controllers
 
             if (!response.Exito)
                 return BadRequest(response);
+
+            return Ok(response);
+        }
+
+        [HttpGet("{cedula}")]
+        public async Task<ActionResult<BuscarClienteResponseModel>> BuscarClientePorCedula(string cedula)
+        {
+            var response = await _clienteService.BuscarClientePorCedula(cedula);
+
+            if (!response.Exito)
+                return NotFound(response);
 
             return Ok(response);
         }

@@ -60,3 +60,16 @@ export const eliminarCliente = async (cedula) => {
     return Promise.reject({ mensaje: 'Error al eliminar cliente' })
   }
 }
+
+export const buscarClientePorCedula = async (cedula) => {
+  try {
+    const respuesta = await cliente.get(`/${cedula}`)
+    return respuesta.data
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      return null
+    }
+    if (error.response && error.response.data) return Promise.reject(error.response.data)
+    return Promise.reject({ mensaje: 'Error al buscar cliente' })
+  }
+}

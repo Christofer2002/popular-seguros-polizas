@@ -4,6 +4,7 @@ using Cliente.Interfaces;
 using Cliente.Models;
 using Cliente.Models.CrearCliente;
 using Cliente.Models.ObtenerClientes;
+using Cliente.Models.BuscarCliente;
 using Comun.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,41 @@ namespace Cliente.Servicios
         public ClienteService(ClienteDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<BuscarClienteResponseModel> BuscarClientePorCedula(string cedula)
+        {
+            try
+            {
+                var cliente = await _context.ClienteTable
+                    .FirstOrDefaultAsync(c => c.CedulaAsegurado == cedula && !c.EstaEliminado);
+
+                if (cliente == null)
+                {
+                    return new BuscarClienteResponseModel
+                    {
+                        Exito = false,
+                        Mensaje = "Cliente no encontrado.",
+                        Data = null
+                    };
+                }
+
+                return new BuscarClienteResponseModel
+                {
+                    Exito = true,
+                    Mensaje = "Cliente encontrado correctamente.",
+                    Data = cliente
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BuscarClienteResponseModel
+                {
+                    Exito = false,
+                    Mensaje = $"Error al buscar el cliente: {ex.Message}",
+                    Data = null
+                };
+            }
         }
 
         public async Task<ObtenerClienteResponseModel> ObtenerClientes(ObtenerClientesRequestModel request)

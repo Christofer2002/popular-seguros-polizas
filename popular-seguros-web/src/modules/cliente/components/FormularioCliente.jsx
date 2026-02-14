@@ -3,10 +3,14 @@ import InputComponent from '../../../components/InputComponent'
 
 const FormularioCliente = ({ 
   cliente, 
-  modoEdicion = false, 
+  modoEdicion = false,
+  soloLectura = false,
   alCambiar, 
   error 
 }) => {
+  const deshabilitarCedula = modoEdicion || soloLectura
+  const deshabilitarCampos = soloLectura
+
   return (
     <>
       {error && <div className="mensaje-error">{error}</div>}
@@ -19,8 +23,8 @@ const FormularioCliente = ({
           requerido
           placeholder="Ingrese la cédula"
           maxLength={20}
-          clase={modoEdicion ? 'campo-deshabilitado' : ''}
-          deshabilitado={modoEdicion}
+          clase={deshabilitarCedula ? 'campo-deshabilitado' : ''}
+          deshabilitado={deshabilitarCedula}
         />
         <InputComponent
           etiqueta="Nombre"
@@ -30,6 +34,8 @@ const FormularioCliente = ({
           requerido
           placeholder="Ingrese el nombre"
           maxLength={100}
+          clase={deshabilitarCampos ? 'campo-deshabilitado' : ''}
+          deshabilitado={deshabilitarCampos}
         />
         <InputComponent
           etiqueta="Primer Apellido"
@@ -39,6 +45,8 @@ const FormularioCliente = ({
           requerido
           placeholder="Ingrese el primer apellido"
           maxLength={100}
+          clase={deshabilitarCampos ? 'campo-deshabilitado' : ''}
+          deshabilitado={deshabilitarCampos}
         />
         <InputComponent
           etiqueta="Segundo Apellido"
@@ -47,6 +55,8 @@ const FormularioCliente = ({
           alCambiar={alCambiar}
           placeholder="Ingrese el segundo apellido"
           maxLength={100}
+          clase={deshabilitarCampos ? 'campo-deshabilitado' : ''}
+          deshabilitado={deshabilitarCampos}
         />
         <InputComponent
           etiqueta="Tipo Persona"
@@ -56,6 +66,8 @@ const FormularioCliente = ({
           requerido
           placeholder="Ej: Física, Jurídica"
           maxLength={20}
+          clase={deshabilitarCampos ? 'campo-deshabilitado' : ''}
+          deshabilitado={deshabilitarCampos}
         />
         <InputComponent
           etiqueta="Fecha Nacimiento"
@@ -64,6 +76,8 @@ const FormularioCliente = ({
           valor={cliente.fechaNacimiento}
           alCambiar={alCambiar}
           requerido
+          clase={deshabilitarCampos ? 'campo-deshabilitado' : ''}
+          deshabilitado={deshabilitarCampos}
         />
       </div>
     </>

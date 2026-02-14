@@ -12,8 +12,8 @@ export default function ModalComponent({
   if (!visible) return null
 
   return (
-    <div className="modal-overlay" onClick={onCerrar}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
+    <div className="modal-overlay">
+      <div className="modal-content">
         <div className="modal-header">
           <h3 className="modal-title">{titulo}</h3>
           <ButtonComponent

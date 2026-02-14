@@ -49,7 +49,7 @@ export default function Login() {
     <div className="auth-viewport">
       <form className="auth-card" onSubmit={manejarEnvio}>
         <div className="auth-logo">
-          <img src="/img/logo_login.png" alt="Popular Seguros" className="auth-logo-img" />
+          <img src={`${import.meta.env.BASE_URL}img/logo_login.png`} alt="Popular Seguros" className="auth-logo-img" />
         </div>
         <h2 className="auth-title">Bienvenido</h2>
         <p className="auth-subtitle">Ingrese sus credenciales para continuar</p>

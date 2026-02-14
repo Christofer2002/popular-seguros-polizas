@@ -20,14 +20,14 @@ const Layout = ({ children }) => {
   const confirmarCerrarSesion = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('usuario')
-    navigate('/login')
+    navigate('/popular-seguros-polizas/web/')
   }
 
   return (
     <div className="layout-container">
       <aside className="sidebar">
         <div className="sidebar-header">
-          <img src="/img/logo_login.png" alt="Popular Seguros" className="sidebar-logo" />
+          <img src={`${import.meta.env.BASE_URL}img/logo_login.png`} alt="Popular Seguros" className="sidebar-logo" />
         </div>
         
         <nav className="sidebar-nav">

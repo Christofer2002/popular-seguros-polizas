@@ -10,7 +10,7 @@ const App = () => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/popular-seguros-polizas/web/" element={<Login />} />
           <Route path="/clientes" element={<Cliente />} />
           <Route path="/polizas" element={<Poliza />} />
           <Route path="/" element={<Navigate to="/login" replace />} />

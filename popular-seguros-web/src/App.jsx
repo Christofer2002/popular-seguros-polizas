@@ -5,12 +5,10 @@ import Login from './pages/Login'
 import Cliente from './modules/cliente/Cliente'
 import Poliza from './modules/poliza/Poliza'
 
-const BASENAME = "/popular-seguros-polizas/web";
-
 const App = () => {
   return (
     <>
-      <BrowserRouter basename={BASENAME}>
+      <BrowserRouter>
         <Routes>
           <Route path="/popular-seguros-polizas/web/" element={<Login />} />
           <Route path="/popular-seguros-polizas/web/clientes" element={<Cliente />} />

@@ -23,7 +23,7 @@ agregarInterceptorCamelCase(cliente)
 
 export const obtenerCatalogos = async () => {
   try {
-    const respuesta = await cliente.get('/api/Catalogos')
+    const respuesta = await cliente.get('/api/catalogo')
     return respuesta.data
   } catch (error) {
     if (error.response && error.response.data) return Promise.reject(error.response.data)

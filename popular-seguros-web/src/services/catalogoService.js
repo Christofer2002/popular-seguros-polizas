@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { API_CONFIG } from '../config/api'
+import API_CONFIG from '../config/api'
 import { agregarInterceptorCamelCase } from '../utils/transformador'
 
 const cliente = axios.create({
-  baseURL: API_CONFIG.poliza,
+  baseURL: API_CONFIG.catalogos,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -23,7 +23,7 @@ agregarInterceptorCamelCase(cliente)
 
 export const obtenerCatalogos = async () => {
   try {
-    const respuesta = await cliente.get('/catalogo')
+    const respuesta = await cliente.get('/')
     return respuesta.data
   } catch (error) {
     if (error.response && error.response.data) return Promise.reject(error.response.data)

@@ -2,8 +2,6 @@
 
 Proyecto desarrollado como parte de la prueba técnica para **Popular Seguros**. 
 
-A continuación se detalla las preguntas teóricas, e instrucciones de ejecución.
-
 ---
 
 ## Información General
@@ -19,7 +17,7 @@ A continuación se detalla las preguntas teóricas, e instrucciones de ejecució
 
 ---
 
-# Tabla de Contenido
+# Contenido
 
 - [Preguntas](#preguntas)
 - [Ejecución](#ejecución)

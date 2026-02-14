@@ -34,7 +34,6 @@ export default function Login() {
         setError(respuesta?.mensaje || 'Error al iniciar sesión')
       }
     } catch (err) {
-      // Mostrar errores de validación si existen
       if (err.errores && err.errores.length > 0) {
         setError(err.errores.join(', '))
       } else {

@@ -129,6 +129,9 @@ Y después
 dotnet ef database update --context CatalogoDbContext
 ```
 
+> [!NOTE]
+> La conexión con la base de datos se realiza mediante Windows Authenticacion, por lo cual es recomendable abrir las herramientras como administrador.
+
 ### Ejecución
 
 - En Visual Studio, abrir la solución **PopularSeguros.Microservicios.slnx** en la carpeta **PopularSeguros.Microservicios**, después:
@@ -142,7 +145,7 @@ dotnet ef database update --context CatalogoDbContext
     - Iniciar proyecto.
 
 > [!NOTE]
-> Se creó un Data Seeder que inserta datos iniciales de las tablas si la base de datos se encuentra vacía.
+> Se crearon varios Data Seeder que insertan datos iniciales de las tablas si la base de datos se encuentra vacía, esto al ejecutar todos los microservicios.
 
 # Login
 

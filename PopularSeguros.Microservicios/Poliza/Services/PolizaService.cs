@@ -7,6 +7,7 @@ using Poliza.Models.ObtenerPolizas;
 using Comun.Models;
 using System.Text.Json;
 using Poliza.Models.Cliente;
+using Poliza.Models.ActualizarPoliza;
 
 namespace Poliza.Services
 {
@@ -292,7 +293,7 @@ namespace Poliza.Services
             }
         }
 
-        public async Task<Poliza.Models.ActualizarPoliza.ActualizarPolizaResponseModel> ActualizarPoliza(Guid id, Poliza.Models.ActualizarPoliza.ActualizarPolizaRequestModel request)
+        public async Task<ActualizarPolizaResponseModel> ActualizarPoliza(Guid id, ActualizarPolizaRequestModel request)
         {
             try
             {
@@ -301,7 +302,7 @@ namespace Poliza.Services
 
                 if (poliza == null)
                 {
-                    return new Poliza.Models.ActualizarPoliza.ActualizarPolizaResponseModel
+                    return new ActualizarPolizaResponseModel
                     {
                         Exito = false,
                         Mensaje = "Póliza no encontrada.",
@@ -309,12 +310,28 @@ namespace Poliza.Services
                     };
                 }
 
+                if (poliza.NumeroPoliza != request.NumeroPoliza)
+                {
+                    var polizaExistente = await _context.PolizaTable
+                        .FirstOrDefaultAsync(p => p.NumeroPoliza == request.NumeroPoliza && p.Id != id && !p.EstaEliminado);
+
+                    if (polizaExistente != null)
+                    {
+                        return new ActualizarPolizaResponseModel
+                        {
+                            Exito = false,
+                            Mensaje = "Ya existe una póliza con ese número.",
+                            Data = null
+                        };
+                    }
+                }
+
                 if (poliza.CedulaAsegurado != request.CedulaAsegurado)
                 {
                     var cedulaExiste = await VerificarCedulaExiste(request.CedulaAsegurado);
                     if (!cedulaExiste)
                     {
-                        return new Poliza.Models.ActualizarPoliza.ActualizarPolizaResponseModel
+                        return new ActualizarPolizaResponseModel
                         {
                             Exito = false,
                             Mensaje = $"El cliente con cédula '{request.CedulaAsegurado}' no existe.",

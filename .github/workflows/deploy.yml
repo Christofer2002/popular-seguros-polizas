@@ -48,7 +48,7 @@ jobs:
         working-directory: popular-seguros-web
         run: |
           npm install
-          npm run build
+          npm run build --mode production
 
       # -----------------------
       # Deploy to VPS
@@ -76,4 +76,4 @@ jobs:
             cd /var/www/backends/popular-seguros-polizas/popular-seguros-web
 
             npm install
-            npm run build
+            npm run build --mode production

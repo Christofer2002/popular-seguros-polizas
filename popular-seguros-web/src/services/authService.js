@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_CONFIG } from '../config/api'
+import API_CONFIG from '../config/api'
 import { agregarInterceptorCamelCase } from '../utils/transformador'
 
 const cliente = axios.create({

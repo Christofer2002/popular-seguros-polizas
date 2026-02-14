@@ -67,8 +67,17 @@ using (var scope = app.Services.CreateScope())
     try
     {
         logger.LogInformation("Aplicando migraciones pendientes...");
-        polizaContext.Database.Migrate();
-        catalogoContext.Database.Migrate();
+        
+        // Verificar conexión antes de migrar
+        if (polizaContext.Database.CanConnect())
+        {
+            polizaContext.Database.Migrate();
+        }
+        
+        if (catalogoContext.Database.CanConnect())
+        {
+            catalogoContext.Database.Migrate();
+        }
 
         if (app.Environment.IsDevelopment())
         {

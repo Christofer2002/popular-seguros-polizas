@@ -60,6 +60,13 @@ using (var scope = app.Services.CreateScope())
     try
     {
         logger.LogInformation("Aplicando migraciones pendientes...");
+        
+        // Verificar si la base de datos existe, si no, crearla
+        if (!context.Database.CanConnect())
+        {
+            context.Database.EnsureCreated();
+        }
+        
         context.Database.Migrate();
 
         if (app.Environment.IsDevelopment())

@@ -5,7 +5,7 @@ using Poliza.Models.Catalogo;
 namespace Poliza.Controllers
 {
     [ApiController]
-    [Route("api/poliza/[controller]")]
+    [Route("api/Poliza/[controller]")]
     public class CatalogoController : ControllerBase
     {
         private readonly ICatalogoService _catalogoService;

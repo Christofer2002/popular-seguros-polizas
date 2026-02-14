@@ -73,7 +73,7 @@ jobs:
             systemctl restart autenticacion
 
             # FRONTEND
-            cd /var/www/frontends/popular-seguros-web
+            cd /var/www/backends/popular-seguros-polizas/popular-seguros-web
 
             npm install
             npm run build

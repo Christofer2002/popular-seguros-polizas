@@ -145,7 +145,7 @@ dotnet ef database update --context CatalogoDbContext
     - Iniciar proyecto.
 
 > [!NOTE]
-> Se creó un Data Seeder que inserta datos iniciales de las tablas si la base de datos se encuentra vacía.
+> Se crearon varios Data Seeder que insertan datos iniciales de las tablas si la base de datos se encuentra vacía, esto al ejecutar todos los microservicios.
 
 # Login
 

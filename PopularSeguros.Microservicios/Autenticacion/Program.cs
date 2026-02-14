@@ -59,7 +59,6 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        logger.LogInformation("Verificando conexión a la base de datos...");
         logger.LogInformation("Aplicando migraciones pendientes...");
         context.Database.Migrate();
 

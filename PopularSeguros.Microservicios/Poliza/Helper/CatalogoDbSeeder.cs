@@ -11,7 +11,11 @@ namespace Poliza.Helper
             CatalogoDbContext context,
             ILogger logger)
         {
-            if (await context.TipoPolizaTable.AnyAsync())
+            bool hasData = await context.TipoPolizaTable.AnyAsync() ||
+                          await context.TipoCoberturaTable.AnyAsync() ||
+                          await context.EstadoPolizaTable.AnyAsync();
+
+            if (hasData)
             {
                 logger.LogInformation("La tabla Catálogos ya contiene datos. Seeding omitido.");
                 return;

@@ -1,4 +1,5 @@
 using Autenticacion.Data;
+using Autenticacion.Helper;
 using Autenticacion.Interfaces;
 using Autenticacion.Services;
 using Comun.Filters;
@@ -49,5 +50,29 @@ app.UseAuthorization();
 
 app.MapGet("/", () => Results.Redirect("swagger"));
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AutenticacionDbContext>();
+    var logger = services.GetRequiredService<ILogger<Program>>();
+
+    try
+    {
+        logger.LogInformation("Aplicando migraciones pendientes...");
+        context.Database.Migrate();
+
+        if (app.Environment.IsDevelopment())
+        {
+            logger.LogInformation("Ejecutando seeding inicial...");
+            await AutenticacionDbSeeder.SeedAsync(context, logger);
+        }
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Ocurrió un error aplicando migraciones o seeding.");
+        throw;
+    }
+}
 
 app.Run();

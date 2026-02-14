@@ -14,7 +14,7 @@ agregarInterceptorCamelCase(cliente)
 
 export async function iniciarSesion(datos) {
   try {
-    const respuesta = await cliente.post('/api/autenticacion/login', {
+    const respuesta = await cliente.post('/api/Autenticacion/login', {
       nombreUsuario: datos.nombreUsuario,
       contraseña: datos.contrasena
     })
@@ -27,7 +27,7 @@ export async function iniciarSesion(datos) {
 
 export async function verificarDisponibilidadUsuario(nombreUsuario) {
   try {
-    const respuesta = await cliente.get(`/api/autenticacion/verificar-usuario/${nombreUsuario}`)
+    const respuesta = await cliente.get(`/api/Autenticacion/verificar-usuario/${nombreUsuario}`)
     return respuesta.data
   } catch (error) {
     if (error.response && error.response.data) return Promise.reject(error.response.data)

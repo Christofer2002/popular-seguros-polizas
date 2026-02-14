@@ -26,6 +26,7 @@ A continuación se detalla las preguntas teóricas, e instrucciones de ejecució
   - [Frontend](#frontend)
   - [Backend](#backend)
 - [Login](#login)
+- [Producción](#producción)
 
 ---
 
@@ -91,7 +92,8 @@ npm install
 npm run dev
 ```
 
-**IMPORTANTE: Revisar que el proyecto se encuentre en el puerto 5173 ya que se configuró CORS para entrar con ese puerto.**
+> [!NOTE]
+> Verificar que el proyecto frontend se esté ejecutando en el puerto **5173**, ya que la configuración de CORS del backend permite solicitudes únicamente desde ese origen.
 
 ## Backend
 
@@ -111,12 +113,12 @@ Se creó un Data Seeder que inserta datos iniciales de las tablas si la base de 
 
 - Claves que se proveen para ingresar al sistema:
 
-    - Usuario: allfernandez
-    - Contraseña: Popularseguros2026
+    - **Usuario**: allfernandez
+    - **Contraseña**: Popularseguros2026
 
 <img width="1747" height="749" alt="image" src="https://github.com/user-attachments/assets/24294204-d1f3-4a21-981c-322726fe69b1" />
 
-# Entorno de Producción
+# Producción
 
 El sistema también se encuentra desplegado en un entorno de producción y puede ser accedido desde el siguiente enlace:
 

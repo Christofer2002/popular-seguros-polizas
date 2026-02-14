@@ -88,7 +88,7 @@ npm install
 npm run dev
 ```
 
-> [!IMPORTANTE]
+> [!NOTE]
 > Verificar que el proyecto frontend se esté ejecutando en el puerto **5173**, ya que la configuración de CORS del backend permite solicitudes únicamente desde ese origen.
 
 ## Backend

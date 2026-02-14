@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_CONFIG } from '../../../config/api'
+import API_CONFIG from '../../../config/api'
 import { agregarInterceptorCamelCase } from '../../../utils/transformador'
 
 const cliente = axios.create({
@@ -23,7 +23,7 @@ agregarInterceptorCamelCase(cliente)
 
 export const obtenerPolizas = async (paginacion) => {
   try {
-    const respuesta = await cliente.post('/api/poliza/filtros', paginacion)
+    const respuesta = await cliente.post('/filtros', paginacion)
     return respuesta.data
   } catch (error) {
     if (error.response && error.response.data) return Promise.reject(error.response.data)
@@ -33,7 +33,7 @@ export const obtenerPolizas = async (paginacion) => {
 
 export const crearPoliza = async (datos) => {
   try {
-    const respuesta = await cliente.post('/api/poliza', datos)
+    const respuesta = await cliente.post('/', datos)
     return respuesta.data
   } catch (error) {
     if (error.response && error.response.data) return Promise.reject(error.response.data)
@@ -43,7 +43,7 @@ export const crearPoliza = async (datos) => {
 
 export const actualizarPoliza = async (id, datos) => {
   try {
-    const respuesta = await cliente.put(`/api/poliza/${id}`, datos)
+    const respuesta = await cliente.put(`/${id}`, datos)
     return respuesta.data
   } catch (error) {
     if (error.response && error.response.data) return Promise.reject(error.response.data)
@@ -53,7 +53,7 @@ export const actualizarPoliza = async (id, datos) => {
 
 export const eliminarPoliza = async (id) => {
   try {
-    const respuesta = await cliente.delete(`/api/poliza/${id}`)
+    const respuesta = await cliente.delete(`/${id}`)
     return respuesta.data
   } catch (error) {
     if (error.response && error.response.data) return Promise.reject(error.response.data)

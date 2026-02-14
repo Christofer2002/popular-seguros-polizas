@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_CONFIG } from '../../../config/api'
+import API_CONFIG from '../../../config/api'
 import { agregarInterceptorCamelCase } from '../../../utils/transformador'
 
 const cliente = axios.create({
@@ -23,7 +23,7 @@ agregarInterceptorCamelCase(cliente)
 
 export const obtenerClientes = async (paginacion) => {
   try {
-    const respuesta = await cliente.post('/api/cliente/filtros', paginacion)
+    const respuesta = await cliente.post('/filtros', paginacion)
     return respuesta.data
   } catch (error) {
     if (error.response && error.response.data) return Promise.reject(error.response.data)
@@ -33,7 +33,7 @@ export const obtenerClientes = async (paginacion) => {
 
 export const crearCliente = async (datos) => {
   try {
-    const respuesta = await cliente.post('/api/cliente', datos)
+    const respuesta = await cliente.post('/', datos)
     return respuesta.data
   } catch (error) {
     if (error.response && error.response.data) return Promise.reject(error.response.data)
@@ -43,7 +43,7 @@ export const crearCliente = async (datos) => {
 
 export const actualizarCliente = async (cedula, datos) => {
   try {
-    const respuesta = await cliente.put(`/api/cliente/${cedula}`, datos)
+    const respuesta = await cliente.put(`/${cedula}`, datos)
     return respuesta.data
   } catch (error) {
     if (error.response && error.response.data) return Promise.reject(error.response.data)
@@ -53,7 +53,7 @@ export const actualizarCliente = async (cedula, datos) => {
 
 export const eliminarCliente = async (cedula) => {
   try {
-    const respuesta = await cliente.delete(`/api/cliente/${cedula}`)
+    const respuesta = await cliente.delete(`/${cedula}`)
     return respuesta.data
   } catch (error) {
     if (error.response && error.response.data) return Promise.reject(error.response.data)

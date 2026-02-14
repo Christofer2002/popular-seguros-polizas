@@ -11,9 +11,9 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/popular-seguros-polizas/web/" element={<Login />} />
-          <Route path="/clientes" element={<Cliente />} />
-          <Route path="/polizas" element={<Poliza />} />
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/popular-seguros-polizas/web/clientes" element={<Cliente />} />
+          <Route path="/popular-seguros-polizas/web/polizas" element={<Poliza />} />
+          <Route path="/" element={<Navigate to="/popular-seguros-polizas/web/" replace />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer

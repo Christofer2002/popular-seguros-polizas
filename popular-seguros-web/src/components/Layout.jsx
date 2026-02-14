@@ -31,11 +31,11 @@ const Layout = ({ children }) => {
         </div>
         
         <nav className="sidebar-nav">
-          <NavLink to="/clientes" className={({ isActive }) => `sidebar-link ${isActive ? 'activo' : ''}`}>
+          <NavLink to="/popular-seguros-polizas/web/clientes" className={({ isActive }) => `sidebar-link ${isActive ? 'activo' : ''}`}>
             <IconoClientes />
             <span>Clientes</span>
           </NavLink>
-          <NavLink to="/polizas" className={({ isActive }) => `sidebar-link ${isActive ? 'activo' : ''}`}>
+          <NavLink to="/popular-seguros-polizas/web/polizas" className={({ isActive }) => `sidebar-link ${isActive ? 'activo' : ''}`}>
             <IconoPolizas />
             <span>Pólizas</span>
           </NavLink>

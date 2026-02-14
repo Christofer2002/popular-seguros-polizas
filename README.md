@@ -93,6 +93,22 @@ npm run dev
 
 ## Backend
 
+### Migraciones
+
+Se debe realizar migraciones por cada microservicio (Cliente, Poliza, Autenticacion), desde consola Consola del Administrador de Paquetes:
+
+```bash
+Update-Database
+```
+
+Si se hacer desde la linea de comandos (CMD)
+
+```bash
+dotnet ef database update
+```
+
+### Ejecución
+
 - En Visual Studio, abrir la solución **PopularSeguros.Microservicios.slnx** en la carpeta **PopularSeguros.Microservicios**, después:
 
     - Click derecho en la solución PopularSeguros.Microservicios.
@@ -103,10 +119,8 @@ npm run dev
 
     - Iniciar proyecto.
 
-Se creó un Data Seeder que inserta datos iniciales de las tablas si la base de datos no se encuentra o está vacía, así que automaticamente se realiza la migración completa + inserción de datos.
-
 > [!NOTE]
-> Se creó un Data Seeder que inserta datos iniciales de las tablas si la base de datos no se encuentra o está vacía, así que automaticamente se realiza la migración completa + inserción de datos al iniciar los microservicios.
+> Se creó un Data Seeder que inserta datos iniciales de las tablas si la base de datos se encuentra vacía.
 
 # Login
 
